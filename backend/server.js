@@ -6,6 +6,8 @@ const Cors = require('cors');
 
 const UserRoutes = require('./routes/UserRoutes');
 
+const ErrorHandler = require('./middlewares/ErrorMiddleware');
+
 const HOST = process.env.HOST || 'http://localhost';
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/BackendDB';
@@ -17,6 +19,7 @@ app.use(Express.json());
 app.use(Express.urlencoded({ extended: false }));
 
 app.use(UserRoutes);
+app.use(ErrorHandler);
 
 app.get('/', (_req, res) => {
     res.send('Home page');
