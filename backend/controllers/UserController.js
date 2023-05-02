@@ -3,7 +3,6 @@ const globalErrorHandler = require('express-async-handler');
 const HttpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 
-
 const UserModel = require('../models/UserModel');
 
 const StatusCodes = HttpStatus.StatusCodes;
@@ -11,10 +10,6 @@ const StatusCodes = HttpStatus.StatusCodes;
 const encryptedPassword = async function (password) {
     const salt = await bcrypt.genSaltSync(10);
     return bcrypt.hash(password, salt);
-};
-
-const verifyPassword = async function (password, storedHash) {
-    return bcrypt.compare(password, storedHash);
 };
 
 const generateToken = (id) => {
@@ -54,7 +49,7 @@ const register = globalErrorHandler(async (req, res) => {
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 86400), // 1 Day
             sameSite: 'none',
-            secure: true,
+            secure: false,
         });
         return res.status(StatusCodes.CREATED).json({ _id, name, email, photo, phone, bio, token });
     }
@@ -74,7 +69,7 @@ const login = globalErrorHandler(async (req, res) => {
     const user = await UserModel.findOne({ email });
 
     if (user) {
-        const passwordValid = await verifyPassword(password, user.password);
+        const passwordValid = await bcrypt.compare(password, user.password);
 
         if (!passwordValid) {
             res.status(StatusCodes.UNAUTHORIZED);
@@ -90,7 +85,7 @@ const login = globalErrorHandler(async (req, res) => {
             httpOnly: true,
             expires: new Date(Date.now() + 1000 * 86400), // 1 Day
             sameSite: 'none',
-            secure: true,
+            secure: false,
         });
 
         return res.status(StatusCodes.OK).json({ _id, name, email, photo, phone, bio, token });
@@ -107,15 +102,24 @@ const logout = globalErrorHandler(async (_req, res) => {
         httpOnly: true,
         expires: new Date(0),
         sameSite: 'none',
-        secure: true,
+        secure: false,
     });
 
     const message = 'You have successfully logged out';
     return res.status(StatusCodes.OK).json({ message });
 });
 
+const profile = globalErrorHandler(async (req, res) => {
+    console.log('----req.session is: ', req.session);
+    console.log('----req.cookies is: ', req.cookies);
+
+    const { _id, name, email, photo, phone, bio } = req.user;
+    return res.status(StatusCodes.OK).json({ _id, name, email, photo, phone, bio });
+});
+
 module.exports = {
     register,
     login,
     logout,
+    profile,
 };

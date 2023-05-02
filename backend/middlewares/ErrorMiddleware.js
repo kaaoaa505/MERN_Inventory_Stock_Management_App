@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status-codes');
 const StatusCodes = HttpStatus.StatusCodes;
 
-const ErrorHandler = (err, req, res, next) => {
+const ErrorMiddleware = (err, req, res, next) => {
     if (res.headersSent) {
         return next(err)
     }
@@ -16,4 +16,4 @@ const ErrorHandler = (err, req, res, next) => {
     res.json({ message, stack });
 };
 
-module.exports = ErrorHandler; 
+module.exports = ErrorMiddleware; 
