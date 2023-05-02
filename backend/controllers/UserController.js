@@ -114,13 +114,32 @@ const profile = globalErrorHandler(async (req, res) => {
     return res.status(StatusCodes.OK).json({ _id, name, email, photo, phone, bio });
 });
 
+const update = globalErrorHandler(async (req, res) => {
+    const user = await UserModel.findById(req.user._id);
+
+    user.name = req.body.name || user.name;
+    user.phone = req.body.phone || user.phone;
+    user.bio = req.body.bio || user.bio;
+    user.photo = req.body.photo || user.photo;
+
+    const updatedUser = await user.save();
+
+    const { _id, name, email, photo, phone, bio } = updatedUser;
+
+    return res.status(StatusCodes.OK).json({ _id, name, email, photo, phone, bio });
+});
+
 const loggedin = globalErrorHandler(async (req, res) => {
     let loggedin = false;
 
     const token = req.cookies.token;
 
-    if (token)
-        loggedin = true;
+    if (token){
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        if(verified){
+            loggedin = true;
+        }
+    }
 
     return res.status(StatusCodes.OK).json({ loggedin });
 });
@@ -130,5 +149,6 @@ module.exports = {
     login,
     logout,
     profile,
+    update,
     loggedin,
 };

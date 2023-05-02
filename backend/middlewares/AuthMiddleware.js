@@ -28,12 +28,12 @@ const protect = globalErrorHandler(async (req, res, next) => {
             req.user = user;
 
             next();
+        } else {
+            res.status(StatusCodes.UNAUTHORIZED);
+            throw new Error('Cookies are disabled.');
         }
-
-        res.status(StatusCodes.UNAUTHORIZED);
-        throw new Error('Cookies is disabled.');
-
     } catch (error) {
+        console.log(error);
         res.status(StatusCodes.UNAUTHORIZED);
         throw new Error('Invalid Token.');
     }
