@@ -1,4 +1,3 @@
-
 const express = require('express');
 
 const UserController = require('../controllers/UserController');
@@ -11,5 +10,7 @@ UserRoutes.post('/api/users/login', UserController.login);
 UserRoutes.get('/api/users/logout', UserController.logout);
 
 UserRoutes.get('/api/users/profile', AuthMiddleware.protect, UserController.profile);
+
+UserRoutes.get('/api/users/loggedin', UserController.loggedin);
 
 module.exports = UserRoutes;

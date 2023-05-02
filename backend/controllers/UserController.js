@@ -110,11 +110,19 @@ const logout = globalErrorHandler(async (_req, res) => {
 });
 
 const profile = globalErrorHandler(async (req, res) => {
-    console.log('----req.session is: ', req.session);
-    console.log('----req.cookies is: ', req.cookies);
-
     const { _id, name, email, photo, phone, bio } = req.user;
     return res.status(StatusCodes.OK).json({ _id, name, email, photo, phone, bio });
+});
+
+const loggedin = globalErrorHandler(async (req, res) => {
+    let loggedin = false;
+
+    const token = req.cookies.token;
+
+    if (token)
+        loggedin = true;
+
+    return res.status(StatusCodes.OK).json({ loggedin });
 });
 
 module.exports = {
@@ -122,4 +130,5 @@ module.exports = {
     login,
     logout,
     profile,
+    loggedin,
 };

@@ -16,12 +16,11 @@ const protect = globalErrorHandler(async (req, res, next) => {
                 throw new Error('Invalid Token.');
             }
 
-            // TODO VERIFY TOKEN
             const verified = jwt.verify(token, process.env.JWT_SECRET);
-            
+
             const user = await UserModel.findById(verified.id).select('-password');
 
-            if(!user){
+            if (!user) {
                 res.status(StatusCodes.UNAUTHORIZED);
                 throw new Error('Invalid token user data.');
             }
