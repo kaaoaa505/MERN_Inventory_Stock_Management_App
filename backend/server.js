@@ -1,8 +1,9 @@
 require('dotenv').config();
 
 const Express = require('express');
-const Mongoose = require('mongoose');
+const CookieParser = require('cookie-parser')
 const Cors = require('cors');
+const Mongoose = require('mongoose');
 
 const UserRoutes = require('./routes/UserRoutes');
 
@@ -14,11 +15,14 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/Backen
 
 const app = Express();
 
+app.use(CookieParser());
 app.use(Cors());
+
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: false }));
 
 app.use(UserRoutes);
+
 app.use(ErrorHandler);
 
 app.get('/', (_req, res) => {

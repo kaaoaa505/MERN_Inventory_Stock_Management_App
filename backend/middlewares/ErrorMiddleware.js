@@ -6,7 +6,7 @@ const ErrorHandler = (err, req, res, next) => {
         return next(err)
     }
 
-    const statusCode = res.status > 0 ? res.status : StatusCodes.INTERNAL_SERVER_ERROR;
+    const statusCode = res.statusCode > 0 ? res.statusCode : StatusCodes.INTERNAL_SERVER_ERROR;
 
     res.status(statusCode);
 
