@@ -47,15 +47,15 @@ const register = globalErrorHandler(async (req, res) => {
     if (user) {
         const { _id, name, email, photo, phone, bio } = user;
 
-    const token = generateToken(_id);
+        const token = generateToken(_id);
 
-    res.cookie('token', token, {
-        path: '/',
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 86400), // 1 Day
-        sameSite: 'none',
-        secure: true,
-    });
+        res.cookie('token', token, {
+            path: '/',
+            httpOnly: true,
+            expires: new Date(Date.now() + 1000 * 86400), // 1 Day
+            sameSite: 'none',
+            secure: true,
+        });
         return res.status(StatusCodes.CREATED).json({ _id, name, email, photo, phone, bio, token });
     }
 
@@ -92,7 +92,7 @@ const login = globalErrorHandler(async (req, res) => {
             sameSite: 'none',
             secure: true,
         });
-        
+
         return res.status(StatusCodes.OK).json({ _id, name, email, photo, phone, bio, token });
     }
 
@@ -100,7 +100,22 @@ const login = globalErrorHandler(async (req, res) => {
     throw new Error('Invalid Email.');
 });
 
+const logout = globalErrorHandler(async (_req, res) => {
+
+    res.cookie('token', '', {
+        path: '/',
+        httpOnly: true,
+        expires: new Date(0),
+        sameSite: 'none',
+        secure: true,
+    });
+
+    const message = 'You have successfully logged out';
+    return res.status(StatusCodes.OK).json({ message });
+});
+
 module.exports = {
     register,
     login,
+    logout,
 };
