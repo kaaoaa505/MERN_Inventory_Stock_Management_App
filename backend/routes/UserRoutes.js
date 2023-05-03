@@ -11,6 +11,8 @@ UserRoutes.get('/api/users/logout', UserController.logout);
 
 UserRoutes.get('/api/users/user/profile', AuthMiddleware.protect, UserController.profile);
 UserRoutes.put('/api/users/user/update', AuthMiddleware.protect, UserController.update);
+UserRoutes.patch('/api/users/user/password', AuthMiddleware.protect, UserController.password);
+UserRoutes.post('/api/users/user/forgot', AuthMiddleware.protect, UserController.forgot);
 
 UserRoutes.get('/api/users/loggedin', UserController.loggedin);
 

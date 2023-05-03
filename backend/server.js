@@ -23,7 +23,6 @@ app.use(UserRoutes);
 
 app.use(ErrorMiddleware);
 
-
 app.get('/', (_req, res) => {
     res.send('Home page');
 });
