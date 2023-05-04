@@ -14,6 +14,7 @@ UserRoutes.put('/api/users/user/update', AuthMiddleware.protect, UserController.
 UserRoutes.patch('/api/users/user/password', AuthMiddleware.protect, UserController.password);
 
 UserRoutes.post('/api/users/user/forgot', UserController.forgot);
+UserRoutes.post('/api/users/user/reset/:token', UserController.reset);
 
 UserRoutes.get('/api/users/loggedin', UserController.loggedin);
 

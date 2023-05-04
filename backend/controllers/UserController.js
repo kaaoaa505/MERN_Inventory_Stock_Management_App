@@ -225,6 +225,13 @@ const forgot = globalErrorHandler(async (req, res) => {
     throw new Error('Unable to send reset email.');
 });
 
+const reset = globalErrorHandler(async (req, res) => {
+    const {token, password}  = req.body;
+    return res.status(StatusCodes.OK).json({
+        MESSAGE: 'TODO PASSWORD RESET.'
+    });
+});
+
 const loggedin = globalErrorHandler(async (req, res) => {
     let loggedin = false;
 
@@ -248,5 +255,6 @@ module.exports = {
     update,
     password,
     forgot,
+    reset,
     loggedin,
 };
