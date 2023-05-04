@@ -169,11 +169,11 @@ const forgot = globalErrorHandler(async (req, res) => {
         throw new Error('Invalid user email.');
     }
 
-    let tokenFound = await TokenModel.findOne({userId: user._id});
-    while(tokenFound){
+    let tokenFound = await TokenModel.findOne({ userId: user._id });
+    while (tokenFound) {
         console.log(tokenFound);
         await tokenFound.deleteOne();
-        tokenFound = await TokenModel.findOne({userId: user._id});
+        tokenFound = await TokenModel.findOne({ userId: user._id });
     }
 
     const time = new Date().getTime();
@@ -226,10 +226,28 @@ const forgot = globalErrorHandler(async (req, res) => {
 });
 
 const reset = globalErrorHandler(async (req, res) => {
-    const {token, password}  = req.body;
-    return res.status(StatusCodes.OK).json({
-        MESSAGE: 'TODO PASSWORD RESET.'
-    });
+    const { password } = req.body;
+    const { token } = req.params;
+
+    const tokenFound = await TokenModel.findOne({ token, expiredAt: { $gt: Date.now()} });
+
+    if (tokenFound) {
+        const userFound = await UserModel.findById(tokenFound.userId);
+
+        userFound.password = await encryptedPassword(password);
+        userFound.save();
+
+        tokenFound.deleteOne();
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            message: 'Password reset was successful.',
+        });
+
+    }
+
+    res.status(StatusCodes.UNAUTHORIZED);
+    throw new Error('Invalid reset token.');
 });
 
 const loggedin = globalErrorHandler(async (req, res) => {
