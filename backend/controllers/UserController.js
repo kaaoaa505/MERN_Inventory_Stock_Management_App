@@ -169,6 +169,13 @@ const forgot = globalErrorHandler(async (req, res) => {
         throw new Error('Invalid user email.');
     }
 
+    let tokenFound = await TokenModel.findOne({userId: user._id});
+    while(tokenFound){
+        console.log(tokenFound);
+        await tokenFound.deleteOne();
+        tokenFound = await TokenModel.findOne({userId: user._id});
+    }
+
     const time = new Date().getTime();
     const resetToken = crypto.randomBytes(32).toString('hex') + user._id + time;
 
