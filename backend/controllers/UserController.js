@@ -1,8 +1,11 @@
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const globalErrorHandler = require('express-async-handler');
 const HttpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 
+const EmailHelper = require('../helpers/EmailHelper');
+const TokenModel = require('../models/TokenModel');
 const UserModel = require('../models/UserModel');
 
 const StatusCodes = HttpStatus.StatusCodes;
@@ -51,6 +54,7 @@ const register = globalErrorHandler(async (req, res) => {
             sameSite: 'none',
             secure: false,
         });
+
         return res.status(StatusCodes.CREATED).json({ _id, name, email, photo, phone, bio, token });
     }
 
@@ -147,7 +151,7 @@ const password = globalErrorHandler(async (req, res) => {
     }
 
     user.password = await encryptedPassword(newPassword);
-    
+
     await user.save();
 
     return res.status(StatusCodes.OK).json({
@@ -156,11 +160,62 @@ const password = globalErrorHandler(async (req, res) => {
 });
 
 const forgot = globalErrorHandler(async (req, res) => {
-    // TODO USER FORGOT PASSWORD
+    const { email } = req.body;
 
-    return res.status(StatusCodes.OK).json({
-        MESSAGE: 'TODO USER FORGOT PASSWORD.'
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('Invalid user email.');
+    }
+
+    const time = new Date().getTime();
+    const resetToken = crypto.randomBytes(32).toString('hex') + user._id + time;
+
+    const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    const result = await TokenModel.create({
+        userId: user._id,
+        token: hashedResetToken,
+        createdAt: Date.now(),
+        expiredAt: Date.now() + 30 * (60 * 1000),
     });
+
+    const resetUrl = `${process.env.FRONT_URL}/password/reset/${hashedResetToken}`;
+
+    const message = `
+        <h2>${user.name}: Password Reset</h2>
+        <p>Please, use the following link to reset your password:</p>
+        <p>
+            <a clicktracking=off href="${resetUrl}">${resetUrl}</a>
+        </p>
+        <p>
+        Best Regards,
+        Khaled Allam
+        Full Stack Software Engineer
+        </p>
+    `;
+
+    const subject = 'Reset password request';
+
+    const to = user.email;
+    const from = process.env.EMAIL_SENDER;
+    const replyTo = process.env.EMAIL_NOREPLY;
+
+    try {
+        await EmailHelper.send(subject, message, to, from, replyTo);
+
+        return res.status(StatusCodes.OK).json({
+            success: true,
+            message: 'Reset email sent successfully.',
+            result
+        });
+    } catch (error) {
+        console.log(error);
+    }
+
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    throw new Error('Unable to send reset email.');
 });
 
 const loggedin = globalErrorHandler(async (req, res) => {
