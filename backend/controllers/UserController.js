@@ -24,7 +24,7 @@ const register = globalErrorHandler(async (req, res) => {
 
     if (!name || !email || !password) {
         res.status(StatusCodes.BAD_REQUEST);
-        throw new Error('Name, Email, and Password required');
+        throw new Error('name, email, and password required');
     }
 
     if (password.length < 6) {

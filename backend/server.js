@@ -5,6 +5,7 @@ const CookieParser = require('cookie-parser');
 const Cors = require('cors');
 const Mongoose = require('mongoose');
 
+const ProductRoutes = require('./routes/ProductRoutes');
 const UserRoutes = require('./routes/UserRoutes');
 
 const ErrorMiddleware = require('./middlewares/ErrorMiddleware');
@@ -19,6 +20,7 @@ app.use(Express.urlencoded({ extended: false }));
 app.use(Cors());
 app.use(CookieParser());
 
+app.use(ProductRoutes);
 app.use(UserRoutes);
 
 app.use(ErrorMiddleware);
