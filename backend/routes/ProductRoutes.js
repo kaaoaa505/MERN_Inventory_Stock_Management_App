@@ -33,4 +33,11 @@ ProductRoutes.delete(
     ProductController.destroy,
 );
 
+ProductRoutes.put(
+    base + 'update/:id',
+    AuthMiddleware.protect,
+    UploadHelper.storageUpload.single('imageFile'),
+    ProductController.update,
+);
+
 module.exports = ProductRoutes;
