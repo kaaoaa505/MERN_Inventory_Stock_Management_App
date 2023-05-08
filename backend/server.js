@@ -8,6 +8,7 @@ const path = require('path');
 
 const ProductRoutes = require('./routes/ProductRoutes');
 const UserRoutes = require('./routes/UserRoutes');
+const ContactRoutes = require('./routes/ContactRoutes');
 
 const ErrorMiddleware = require('./middlewares/ErrorMiddleware');
 
@@ -25,6 +26,7 @@ app.use('/uploads', Express.static(path.join(__dirname, 'uploads')));
 
 app.use(ProductRoutes);
 app.use(UserRoutes);
+app.use(ContactRoutes);
 
 app.use(ErrorMiddleware);
 
