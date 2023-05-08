@@ -53,15 +53,50 @@ const store = globalErrorHandler(async (req, res) => {
     return res.status(StatusCodes.OK).json({ product });
 });
 
-
 const index = globalErrorHandler(async (req, res) => {
-
     const products = await ProductModel.find({userId: req.user._id}).sort('-createdAt');
     return res.status(StatusCodes.OK).json(products);
+});
 
+const show = globalErrorHandler(async (req, res) => {
+    const {id} = req.params;
+    const product = await ProductModel.findById(id);
+
+    if(!product){
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error('Product not found');
+    }
+
+    if(product.userId.toString() !== req.user._id.toString()){
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('User not allowed');
+    }
+
+    return res.status(StatusCodes.OK).json(product);
+});
+
+const destroy = globalErrorHandler(async (req, res) => {
+    const {id} = req.params;
+    const product = await ProductModel.findById(id);
+
+    if(!product){
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error('Product not found');
+    }
+
+    if(product.userId.toString() !== req.user._id.toString()){
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error('User not allowed');
+    }
+
+    await product.deleteOne();
+
+    return res.status(StatusCodes.NO_CONTENT).json({});
 });
 
 module.exports = {
     store,
     index,
+    show,
+    destroy,
 };

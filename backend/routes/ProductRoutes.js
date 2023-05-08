@@ -21,4 +21,16 @@ ProductRoutes.get(
     ProductController.index,
 );
 
+ProductRoutes.get(
+    base + 'show/:id',
+    AuthMiddleware.protect,
+    ProductController.show,
+);
+
+ProductRoutes.delete(
+    base + 'destroy/:id',
+    AuthMiddleware.protect,
+    ProductController.destroy,
+);
+
 module.exports = ProductRoutes;
