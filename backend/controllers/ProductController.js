@@ -1,8 +1,8 @@
 const globalErrorHandler = require('express-async-handler');
 const HttpStatus = require('http-status-codes');
-const ProductModel = require('../models/ProductModel');
 
-// const ProductModel = require('../models/ProductModel');
+const UploadHelper = require('../helpers/UploadHelper');
+const ProductModel = require('../models/ProductModel');
 
 const StatusCodes = HttpStatus.StatusCodes;
 
@@ -14,7 +14,6 @@ const store = globalErrorHandler(async (req, res) => {
         quantity,
         price,
         description,
-        image,
     } = req.body;
 
 
@@ -29,7 +28,16 @@ const store = globalErrorHandler(async (req, res) => {
         throw new Error('name, category, quantity, price, and description required');
     }
 
-    // TODO IMAGE UPLOAD
+    let fileData = {};
+    
+    if(req.file){
+        fileData = {
+            fileName: req.file.originalname,
+            filePath: req.file.path,
+            fileType: req.file.mimetype,
+            fileSize: UploadHelper.fileSizeFormatter(req.file.size, 2),
+        };
+    }
 
     const product = await ProductModel.create({
         userId: req.user._id,
@@ -39,7 +47,7 @@ const store = globalErrorHandler(async (req, res) => {
         quantity,
         price,
         description,
-        image,
+        image: fileData,
     });
 
     return res.status(StatusCodes.OK).json({ product });
