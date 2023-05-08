@@ -53,6 +53,15 @@ const store = globalErrorHandler(async (req, res) => {
     return res.status(StatusCodes.OK).json({ product });
 });
 
+
+const index = globalErrorHandler(async (req, res) => {
+
+    const products = await ProductModel.find({userId: req.user._id}).sort('-createdAt');
+    return res.status(StatusCodes.OK).json(products);
+
+});
+
 module.exports = {
     store,
+    index,
 };

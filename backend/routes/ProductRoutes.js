@@ -15,4 +15,10 @@ ProductRoutes.post(
     ProductController.store
 );
 
+ProductRoutes.get(
+    base + 'index',
+    AuthMiddleware.protect,
+    ProductController.index,
+);
+
 module.exports = ProductRoutes;
