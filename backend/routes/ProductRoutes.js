@@ -11,7 +11,7 @@ const base = '/api/products/';
 ProductRoutes.post(
     base + 'store',
     AuthMiddleware.protect,
-    UploadHelper.storageUpload.single('imageFile'),
+    UploadHelper.upload.single('image'),
     ProductController.store
 );
 
@@ -36,7 +36,7 @@ ProductRoutes.delete(
 ProductRoutes.put(
     base + 'update/:id',
     AuthMiddleware.protect,
-    UploadHelper.storageUpload.single('imageFile'),
+    UploadHelper.upload.single('image'),
     ProductController.update,
 );
 
