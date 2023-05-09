@@ -6,7 +6,6 @@ import "./Home.scss";
 const Home = () => {
   return (
     <div className="HomeComponent">
-
       <nav className="container --flex-between">
         <div className="logo">
           <FaTablets size={50} />
@@ -16,7 +15,7 @@ const Home = () => {
         <ul className="home-links">
           <li>
             <button className="--btn">
-            <Link to="/register">Register</Link>
+              <Link to="/register">Register</Link>
             </button>
           </li>
 
