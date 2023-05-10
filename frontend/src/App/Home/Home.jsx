@@ -1,4 +1,4 @@
-import { FaTablets } from "@react-icons/all-files/fa/FaTablets";
+import { FaTablets } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import "./Home.scss";
