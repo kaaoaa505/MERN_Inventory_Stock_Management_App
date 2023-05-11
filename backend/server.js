@@ -19,7 +19,14 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/Backen
 const app = Express();
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: false }));
-app.use(Cors());
+// app.use(Cors());
+app.use(
+    Cors({
+      origin: ["http://localhost:3000", "https://local.host"],
+      credentials: true,
+    })
+  );
+
 app.use(CookieParser());
 
 app.use('/uploads', Express.static(path.join(__dirname, 'uploads')));

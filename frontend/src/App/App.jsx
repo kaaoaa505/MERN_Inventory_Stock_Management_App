@@ -1,5 +1,8 @@
+import axios from "axios";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 
 import Dashboard from "./Dashboard/Dashboard";
@@ -8,6 +11,8 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import Forgot from "./Password/Forgot";
 import Reset from "./Password/Reset";
+
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
@@ -22,6 +27,8 @@ function App() {
           <Route path="/reset/:token" Component={Reset} />
         </Routes>
       </BrowserRouter>
+
+      <ToastContainer />
     </div>
   );
 }

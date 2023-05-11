@@ -1,0 +1,15 @@
+.LoadingComponent{
+    width: 100%;
+    position: fixed;
+    height: 100vh;
+    background-color: lightgrey;
+    top: 0;
+    opacity: 0.5;
+}
+
+.LoadingComponent img{
+    width: 100%;
+    margin: 40vh auto 0 auto;
+    width: 100px;
+    display: block;
+}
