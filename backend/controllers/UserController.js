@@ -198,7 +198,11 @@ const forgot = globalErrorHandler(async (req, res) => {
         </p>
         <p>
         Best Regards,
+        </p>
+        <p>
         Khaled Allam
+        </p>
+        <p>
         Full Stack Software Engineer
         </p>
     `;

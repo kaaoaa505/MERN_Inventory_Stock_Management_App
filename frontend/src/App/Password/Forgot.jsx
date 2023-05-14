@@ -44,9 +44,7 @@ const Forgot = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-
       console.log(error);
-
       return toast.error(error.message);
     }
   };

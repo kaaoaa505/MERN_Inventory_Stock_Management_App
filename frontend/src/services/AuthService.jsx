@@ -97,3 +97,26 @@ export const forgot = async (userData) => {
     toast.error(message);
   }
 };
+
+export const reset = async (userData, token) => {
+
+  try {
+    const response = await axios.post(
+      `${BACKEND_URL}/api/users/user/reset/${token}`,
+      userData
+    );
+
+    if (response.statusText === "OK") {
+      toast.success("Reset was successfully.");
+    }
+
+    return response.data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    toast.error(message);
+  }
+};

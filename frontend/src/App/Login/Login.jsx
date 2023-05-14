@@ -7,9 +7,9 @@ import { toast } from "react-toastify";
 import "./Login.scss";
 
 import Card from "../../components/Card/Card";
-import * as AuthService from "../../services/AuthService";
-import * as AuthSlice from "../../redux/Auth/AuthSlice";
 import Loading from "../../components/Loading/Loading";
+import * as AuthSlice from "../../redux/Auth/AuthSlice";
+import * as AuthService from "../../services/AuthService";
 
 const initialFormData = {
   email: "",
