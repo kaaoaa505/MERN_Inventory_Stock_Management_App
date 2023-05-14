@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -12,9 +13,28 @@ import Register from "./Register/Register";
 import Forgot from "./Password/Forgot";
 import Reset from "./Password/Reset";
 
+import * as AuthSlice from "../redux/Auth/AuthSlice";
+import { useEffect } from "react";
+
 axios.defaults.withCredentials = true;
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function loggedinStatus(){
+      const token = JSON.parse(localStorage.getItem("token"));
+
+      if (token) {
+        dispatch(AuthSlice.SET_LOGIN(true));
+      }else{
+        dispatch(AuthSlice.SET_LOGIN(false));
+      }
+    } 
+
+    loggedinStatus();
+  }, [dispatch]);
+
   return (
     <div className="AppComponent">
       <BrowserRouter>

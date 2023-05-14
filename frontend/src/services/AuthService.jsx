@@ -43,6 +43,7 @@ export const login = async (userData) => {
     );
 
     if (response.statusText === "OK") {
+      localStorage.setItem("token", JSON.stringify(response.data.token));
       toast.success("Login was successful.");
     }
 
@@ -65,6 +66,7 @@ export const logout = async () => {
 
     if (response.statusText === "OK") {
       toast.success("Logout was successful.");
+      localStorage.setItem("token", '');
     }
   } catch (error) {
     const message =
@@ -124,13 +126,14 @@ export const reset = async (userData, token) => {
 export const loggedin = async () => {
   try {
     const response = await axios.get(
-      `${BACKEND_URL}/api/users/loggedin`
+      `${BACKEND_URL}/api/users/loggedin`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response.statusText === "OK") {
-      return response.data.loggedin;
-    }else{
-      return false;
+      return response.data;
     }
   } catch (error) {
     const message =
