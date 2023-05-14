@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -14,7 +15,6 @@ import Forgot from "./Password/Forgot";
 import Reset from "./Password/Reset";
 
 import * as AuthSlice from "../redux/Auth/AuthSlice";
-import { useEffect } from "react";
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +23,10 @@ function App() {
 
   useEffect(() => {
     async function loggedinStatus(){
-      const token = JSON.parse(localStorage.getItem("token"));
+      let token = '';
+      if(localStorage.getItem("token")){
+        token = JSON.parse(localStorage.getItem("token"));
+      }
 
       if (token) {
         dispatch(AuthSlice.SET_LOGIN(true));
