@@ -62,21 +62,22 @@ const Register = () => {
     };
 
     try {
-
       setIsLoading(true);
 
-      const data = await AuthService.registerUser(userData);
+      const data = await AuthService.register(userData);
 
-      dispatch(AuthSlice.SET_LOGIN(true))
-      dispatch(AuthSlice.SET_NAME(data.name))
+      if (data && data.name) {
+        dispatch(AuthSlice.SET_LOGIN(true));
+        dispatch(AuthSlice.SET_NAME(data.name));
+
+        navigate("/dashboard");
+      }
 
       setIsLoading(false);
-
-      navigate('/dashboard');
     } catch (error) {
-      console.log(error);
-
       setIsLoading(false);
+      console.log(error);
+      return toast.error(error.message);
     }
   };
 
@@ -84,7 +85,9 @@ const Register = () => {
     <div className="RegisterComponent">
       <Card>
         <div className="form">
+          
           {isLoading && <Loading />}
+
           <div className="--flex-center">
             <TiUserAdd size={50} color="gray" />
           </div>

@@ -188,7 +188,7 @@ const forgot = globalErrorHandler(async (req, res) => {
         expiredAt: Date.now() + 30 * (60 * 1000),
     });
 
-    const resetUrl = `${process.env.FRONT_URL}/password/reset/${hashedResetToken}`;
+    const resetUrl = `${process.env.FRONT_URL}/reset/${hashedResetToken}`;
 
     const message = `
         <h2>${user.name}: Password Reset</h2>
