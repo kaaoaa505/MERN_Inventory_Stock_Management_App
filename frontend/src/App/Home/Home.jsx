@@ -2,6 +2,10 @@ import { FaTablets } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import "./Home.scss";
+import {
+  HideIfLoggedin,
+  ShowIfLoggedin,
+} from "../../selectors/LoggedinSelector";
 
 const Home = () => {
   return (
@@ -13,23 +17,27 @@ const Home = () => {
         </div>
 
         <ul className="home-links">
-          <li>
-            <button className="--btn">
-              <Link to="/register">Register</Link>
-            </button>
-          </li>
+          <HideIfLoggedin>
+            <li>
+              <button className="--btn">
+                <Link to="/register">Register</Link>
+              </button>
+            </li>
 
-          <li>
-            <button className="--btn">
-              <Link to="/login">Login</Link>
-            </button>
-          </li>
+            <li>
+              <button className="--btn">
+                <Link to="/login">Login</Link>
+              </button>
+            </li>
+          </HideIfLoggedin>
 
-          <li>
-            <button className="--btn">
-              <Link to="/dashboard">Dashboard</Link>
-            </button>
-          </li>
+          <ShowIfLoggedin>
+            <li>
+              <button className="--btn">
+                <Link to="/dashboard">Dashboard</Link>
+              </button>
+            </li>
+          </ShowIfLoggedin>
         </ul>
       </nav>
 

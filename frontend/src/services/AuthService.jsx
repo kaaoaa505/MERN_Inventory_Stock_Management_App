@@ -120,3 +120,24 @@ export const reset = async (userData, token) => {
     toast.error(message);
   }
 };
+
+export const loggedin = async () => {
+  try {
+    const response = await axios.get(
+      `${BACKEND_URL}/api/users/loggedin`
+    );
+
+    if (response.statusText === "OK") {
+      return response.data.loggedin;
+    }else{
+      return false;
+    }
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    toast.error(message);
+  }
+}
