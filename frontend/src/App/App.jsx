@@ -13,6 +13,7 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import Forgot from "./Password/Forgot";
 import Reset from "./Password/Reset";
+import ProductAdd from "./Product/ProductAdd";
 
 import * as AuthSlice from "../redux/Auth/AuthSlice";
 
@@ -48,6 +49,7 @@ function App() {
           <Route path="/login" Component={Login} />
           <Route path="/register" Component={Register} />
           <Route path="/reset/:token" Component={Reset} />
+          <Route path="/product/add" Component={ProductAdd} />
         </Routes>
       </BrowserRouter>
 

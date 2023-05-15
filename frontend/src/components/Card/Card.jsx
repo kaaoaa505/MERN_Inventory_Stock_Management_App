@@ -1,6 +1,6 @@
-import './Card.scss';
+import "./Card.scss";
 
-const Card = ({ children, cardClasses }) => {
+const Card = ({ children, cardClasses = "" }) => {
   return <div className={`CardComponent card ${cardClasses}`}>{children}</div>;
 };
 

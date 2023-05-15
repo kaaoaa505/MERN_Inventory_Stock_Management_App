@@ -1,10 +1,13 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Cookies } from "react-cookie";
 
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const validateEmail = (email) => {
-  return email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
 };
 
 export const register = async (userData) => {
@@ -34,6 +37,8 @@ export const register = async (userData) => {
 
 export const login = async (userData) => {
   try {
+    const cookies = new Cookies();
+
     const response = await axios.post(
       `${BACKEND_URL}/api/users/login`,
       userData,
@@ -43,8 +48,13 @@ export const login = async (userData) => {
     );
 
     if (response.statusText === "OK") {
-      localStorage.setItem("token", JSON.stringify(response.data.token));
+      const token = response.data.token;
+      localStorage.setItem("token", JSON.stringify(token));
+
+      cookies.set("token", token);
       toast.success("Login was successful.");
+    }else{
+      cookies.set("token", '');
     }
 
     return response.data;
@@ -60,13 +70,11 @@ export const login = async (userData) => {
 
 export const logout = async () => {
   try {
-    const response = await axios.get(
-      `${BACKEND_URL}/api/users/logout`
-    );
+    const response = await axios.get(`${BACKEND_URL}/api/users/logout`);
 
     if (response.statusText === "OK") {
       toast.success("Logout was successful.");
-      localStorage.setItem("token", '');
+      localStorage.setItem("token", "");
     }
   } catch (error) {
     const message =
@@ -101,7 +109,6 @@ export const forgot = async (userData) => {
 };
 
 export const reset = async (userData, token) => {
-
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/user/reset/${token}`,
@@ -125,12 +132,9 @@ export const reset = async (userData, token) => {
 
 export const loggedin = async () => {
   try {
-    const response = await axios.get(
-      `${BACKEND_URL}/api/users/loggedin`,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${BACKEND_URL}/api/users/loggedin`, {
+      withCredentials: true,
+    });
 
     if (response.statusText === "OK") {
       return response.data;
@@ -143,4 +147,4 @@ export const loggedin = async () => {
 
     toast.error(message);
   }
-}
+};
