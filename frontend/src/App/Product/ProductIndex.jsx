@@ -1,5 +1,6 @@
 import { AiOutlineEye } from "react-icons/ai";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import ReactPaginate from "react-paginate";
 
 import "./ProductIndex.scss";
 
@@ -18,12 +19,29 @@ import {
 const ProductIndex = ({ products, isLoading }) => {
   const [searchText, setSearchText] = useState("");
 
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 2;
+
   const productsBySearch = useSelector(selectProductsBySearch);
 
   const dispatch = useDispatch();
 
   const onSearchTextChange = (event) => {
     setSearchText(event.target.value);
+  };
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+
+    setCurrentItems(productsBySearch.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(productsBySearch.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, productsBySearch]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % productsBySearch.length;
+    setItemOffset(newOffset);
   };
 
   useEffect(() => {
@@ -35,6 +53,7 @@ const ProductIndex = ({ products, isLoading }) => {
       {isLoading && <Loading />}
 
       <hr />
+      
       <div className="table">
         <div className="--flex-between --flex-dir-column">
           <span>
@@ -48,8 +67,12 @@ const ProductIndex = ({ products, isLoading }) => {
           </span>
         </div>
 
-        {!isLoading && productsBySearch.length === 0 ? <p>No product found.</p> : ""}
-        {!isLoading && productsBySearch.length > 0 ? (
+        {!isLoading && currentItems.length === 0 ? (
+          <p>No product found.</p>
+        ) : (
+          ""
+        )}
+        {!isLoading && currentItems.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -64,7 +87,7 @@ const ProductIndex = ({ products, isLoading }) => {
               </tr>
             </thead>
             <tbody>
-              {productsBySearch.map((product, index) => (
+              {currentItems.map((product, index) => (
                 <tr key={product._id}>
                   <td>{index + 1}</td>
                   <td>{TextHelper.shortenText(product.name, 20)}</td>
@@ -82,7 +105,7 @@ const ProductIndex = ({ products, isLoading }) => {
                     </span>
                     <span>
                       <FaTrashAlt size={20} color="darkred" />
-                    </span>
+                    </span>2
                   </td>
                 </tr>
               ))}
@@ -91,6 +114,21 @@ const ProductIndex = ({ products, isLoading }) => {
         ) : (
           ""
         )}
+
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="Next"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={itemsPerPage}
+          pageCount={pageCount}
+          previousLabel="Prev"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination"
+          pageLinkClassName="page-num"
+          previousLinkClassName="page-num"
+          nextLinkClassName="page-num"
+          activeLinkClassName="activePage"
+        />
       </div>
     </div>
   );

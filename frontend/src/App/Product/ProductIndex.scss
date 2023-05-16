@@ -16,8 +16,8 @@
       font-size: 1.4rem;
 
       thead {
-        border-top: 2px solid var(--light-blue);
-        border-bottom: 2px solid var(--light-blue);
+        border-top: 2px solid var(--light-gray);
+        border-bottom: 2px solid var(--light-gray);
       }
 
       th {
@@ -53,9 +53,15 @@
       tbody {
         tr:hover {
           cursor: pointer;
-          background-color: rgba(31, 147, 255, 0.3);
+          background-color: gray;
         }
       }
     }
+  }
+  .activePage{
+    background-color: gray;
+  }
+  .pagination .page-num:hover{
+    background-color: lightgray ;
   }
 }
