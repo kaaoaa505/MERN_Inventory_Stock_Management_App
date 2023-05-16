@@ -1,0 +1,27 @@
+.ProductsSummaryComponent {
+    width: 100%;
+    .info-summary {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #f5f6fa;
+  }
+  
+  .card1 {
+    background-color: #371647;
+  }
+  .card2 {
+    background-color: #1e3f22;
+  }
+  .card3 {
+    background-color: #772139;
+  }
+  .card4 {
+    background-color: #224d64;
+  }
+  

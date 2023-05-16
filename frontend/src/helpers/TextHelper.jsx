@@ -8,8 +8,13 @@ const shortenText = (text, n) => {
   return text;
 };
 
+const numberWithCommas = (targetNumber) => {
+  return targetNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const TextHelper = {
   shortenText,
+  numberWithCommas,
 }
 
 export default TextHelper;

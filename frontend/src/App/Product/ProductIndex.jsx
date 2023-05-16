@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import ReactPaginate from "react-paginate";
 
 import "./ProductIndex.scss";
@@ -7,9 +9,6 @@ import "./ProductIndex.scss";
 import ProductSearch from "./ProductSearch";
 
 import Loading from "../../components/Loading/Loading";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import TextHelper from "../../helpers/TextHelper";
 import {
   PRODUCTS_BY_SEARCH,
@@ -53,7 +52,7 @@ const ProductIndex = ({ products, isLoading }) => {
       {isLoading && <Loading />}
 
       <hr />
-      
+
       <div className="table">
         <div className="--flex-between --flex-dir-column">
           <span>
@@ -105,7 +104,7 @@ const ProductIndex = ({ products, isLoading }) => {
                     </span>
                     <span>
                       <FaTrashAlt size={20} color="darkred" />
-                    </span>2
+                    </span>
                   </td>
                 </tr>
               ))}

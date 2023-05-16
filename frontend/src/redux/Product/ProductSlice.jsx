@@ -9,6 +9,10 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
+  productsTotal: 0,
+  earning: 0,
+  outOfStock: 0,
+  categories: [],
 };
 
 export const storeProduct = createAsyncThunk(
@@ -39,7 +43,54 @@ const ProductSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    STORE_VALUE(state, action) {},
+    PRODUCTS_TOTAL(state, action) {
+      const products = action.payload;
+      const productsTotalsArray = [];
+
+      products.map(product => {
+        const {price, quantity} = product;
+        const total = price * quantity;
+        return productsTotalsArray.push(total);
+      });
+
+      const productsTotalValue = productsTotalsArray.reduce( (a,b) => {
+        return a + b;
+      }, 0);
+
+      state.productsTotal = productsTotalValue;
+    },
+    PRODUCTS_OUT_OF_STOCK(state, action) {
+      const products = action.payload;
+      let count = 0;
+
+      products.map(product => {
+        const { quantity} = product;
+
+        if(parseInt(quantity) === 0){
+          count++;
+        }
+        
+        return count;
+      });
+
+      state.outOfStock = count;
+    },
+    PRODUCTS_CATEGORIES(state, action) {
+      const products = action.payload;
+      let categoriesArray = [];
+
+      products.map(product => {
+        const { category} = product;
+
+        if(categoriesArray.includes(category)){
+          return categoriesArray;
+        }
+        
+        return categoriesArray.push(category);
+      });
+
+      state.categories = categoriesArray.length;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -83,8 +134,11 @@ const ProductSlice = createSlice({
   },
 });
 
-export const { STORE_VALUE } = ProductSlice.actions;
+export const { PRODUCTS_TOTAL, PRODUCTS_OUT_OF_STOCK, PRODUCTS_CATEGORIES } = ProductSlice.actions;
 
 export const selectIsLoading = (state) => state.product.isLoading;
+export const selectProductsTotal = (state) => state.product.productsTotal;
+export const selectOutOfStock = (state) => state.product.outOfStock;
+export const selectCategories = (state) => state.product.categories;
 
 export default ProductSlice.reducer;
