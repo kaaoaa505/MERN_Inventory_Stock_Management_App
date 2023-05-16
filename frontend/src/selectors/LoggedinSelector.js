@@ -2,9 +2,9 @@ import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../redux/Auth/AuthSlice";
 
 export const ShowIfLoggedin = ({ children }) => {
-  const isLoggedin = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  if (isLoggedin) {
+  if (isLoggedIn) {
     return <>{children}</>;
   }
 
@@ -12,9 +12,9 @@ export const ShowIfLoggedin = ({ children }) => {
 };
 
 export const HideIfLoggedin = ({ children }) => {
-  const isLoggedin = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  if (!isLoggedin) {
+  if (!isLoggedIn) {
     return <>{children}</>;
   }
 

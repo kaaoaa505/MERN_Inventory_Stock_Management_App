@@ -64,6 +64,7 @@ const Login = () => {
       if (data && data.name) {
         dispatch(AuthSlice.SET_LOGIN(true));
         dispatch(AuthSlice.SET_NAME(data.name));
+        dispatch(AuthSlice.SET_USER(data));
 
         navigate("/dashboard");
       }

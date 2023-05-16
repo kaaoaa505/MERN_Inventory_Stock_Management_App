@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { Cookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -13,7 +14,7 @@ import Login from "./Login/Login";
 import Register from "./Register/Register";
 import Forgot from "./Password/Forgot";
 import Reset from "./Password/Reset";
-import ProductAdd from "./Product/ProductAdd";
+import ProductCreate from "./Product/ProductCreate";
 
 import * as AuthSlice from "../redux/Auth/AuthSlice";
 
@@ -24,10 +25,9 @@ function App() {
 
   useEffect(() => {
     async function loggedinStatus(){
-      let token = '';
-      if(localStorage.getItem("token")){
-        token = JSON.parse(localStorage.getItem("token"));
-      }
+      const cookies = new Cookies();
+
+      const token = cookies.get("token");
 
       if (token) {
         dispatch(AuthSlice.SET_LOGIN(true));
@@ -49,7 +49,7 @@ function App() {
           <Route path="/login" Component={Login} />
           <Route path="/register" Component={Register} />
           <Route path="/reset/:token" Component={Reset} />
-          <Route path="/product/add" Component={ProductAdd} />
+          <Route path="/product/add" Component={ProductCreate} />
         </Routes>
       </BrowserRouter>
 

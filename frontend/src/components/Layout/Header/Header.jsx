@@ -20,6 +20,7 @@ const Header = () => {
       
       dispatch(AuthSlice.SET_LOGIN(false));
       dispatch(AuthSlice.SET_NAME(""));
+      dispatch(AuthSlice.SET_USER({}));
       
       await AuthService.logout();
       

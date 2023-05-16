@@ -10,10 +10,23 @@ export const store = async(formData) => {
         formData
       );
   
-      if (response.statusText === "OK") {
-        toast.success("Product stored successfully.");
-      }
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
   
+      toast.error(message);
+    }
+}
+
+export const index = async() => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/products/index`
+      );
+
       return response.data;
     } catch (error) {
       const message =

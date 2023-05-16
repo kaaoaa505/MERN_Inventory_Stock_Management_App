@@ -15,7 +15,7 @@ const initialProduct = {
   price: 0,
 };
 
-const ProductAdd = () => {
+const ProductCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -66,7 +66,7 @@ const ProductAdd = () => {
   };
 
   return (
-    <div className="ProductAddComponent">
+    <div className="ProductCreateComponent">
       <Sidebar>
         <Layout>
           <h3 className="--mt">Add New Product</h3>
@@ -88,4 +88,4 @@ const ProductAdd = () => {
   );
 };
 
-export default ProductAdd;
+export default ProductCreate;

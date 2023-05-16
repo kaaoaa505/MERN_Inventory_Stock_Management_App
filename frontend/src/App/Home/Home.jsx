@@ -2,12 +2,14 @@ import { FaTablets } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import "./Home.scss";
+
 import {
   HideIfLoggedin,
   ShowIfLoggedin,
 } from "../../selectors/LoggedinSelector";
 
 const Home = () => {
+
   return (
     <div className="HomeComponent">
       <nav className="container --flex-between">

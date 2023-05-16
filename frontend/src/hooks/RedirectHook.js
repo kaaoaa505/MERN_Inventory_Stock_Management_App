@@ -1,31 +1,31 @@
 import { useEffect } from "react";
+import { Cookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import * as AuthSlice from "../redux/Auth/AuthSlice";
 
 const RedirectLoggedoutUser = (path) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function loggedinStatus(path){
-      let token = '';
-      if(localStorage.getItem("token")){
-        token = JSON.parse(localStorage.getItem("token"));
-      }
+    async function loggedinStatus(path) {
+      const cookies = new Cookies();
+
+      const token = cookies.get("token");
 
       if (token) {
         dispatch(AuthSlice.SET_LOGIN(true));
-      }else{
+      } else {
         dispatch(AuthSlice.SET_LOGIN(false));
 
         navigate(path);
       }
-    } 
+    }
 
     loggedinStatus(path);
   }, [dispatch, navigate, path]);
-}
+};
 
 export default RedirectLoggedoutUser;

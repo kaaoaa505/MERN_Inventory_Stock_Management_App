@@ -32,6 +32,8 @@ const AuthSlice = createSlice({
       state.user.phone = profile.phone;
       state.user.bio = profile.bio;
       state.user.photo = profile.photo;
+
+      localStorage.setItem("profile", JSON.stringify(state.user));
     },
   },
 });

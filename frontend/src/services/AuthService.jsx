@@ -49,12 +49,10 @@ export const login = async (userData) => {
 
     if (response.statusText === "OK") {
       const token = response.data.token;
-      localStorage.setItem("token", JSON.stringify(token));
-
       cookies.set("token", token);
       toast.success("Login was successful.");
-    }else{
-      cookies.set("token", '');
+    } else {
+      cookies.set("token", "");
     }
 
     return response.data;
@@ -70,12 +68,15 @@ export const login = async (userData) => {
 
 export const logout = async () => {
   try {
+    const cookies = new Cookies();
+
     const response = await axios.get(`${BACKEND_URL}/api/users/logout`);
 
     if (response.statusText === "OK") {
       toast.success("Logout was successful.");
-      localStorage.setItem("token", "");
     }
+
+    cookies.set("token", "");
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
