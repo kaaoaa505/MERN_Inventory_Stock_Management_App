@@ -18,7 +18,7 @@ const Menu = [
     childrens: [
       {
         title: "Profile View",
-        path: "/profile",
+        path: "/profile/show",
         icon: <FaStreetView />,
       },
       {

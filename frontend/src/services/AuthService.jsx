@@ -150,6 +150,45 @@ const loggedin = async () => {
   }
 };
 
+const profile = async () => {
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/users/user/profile`, {
+      withCredentials: true,
+    });
+
+    if (response.statusText === "OK") {
+      return response.data;
+    }
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    toast.error(message);
+  }
+};
+
+const update = async (userData) => {
+  try {
+    const response = await axios.put(
+      `${BACKEND_URL}/api/users/user/update`,
+      userData
+    );
+
+    if (response.statusText === "OK") {
+      return response.data;
+    }
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+
+    toast.error(message);
+  }
+};
+
 const AuthService = {
   validateEmail,
   register,
@@ -158,6 +197,8 @@ const AuthService = {
   forgot,
   reset,
   loggedin,
+  profile,
+  update,
 };
 
 export default AuthService;

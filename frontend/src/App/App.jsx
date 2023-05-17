@@ -15,10 +15,12 @@ import Register from "./Register/Register";
 import Forgot from "./Password/Forgot";
 import Reset from "./Password/Reset";
 import ProductCreate from "./Product/ProductCreate";
+import ProductEdit from "./Product/ProductEdit";
+import ProductShow from "./Product/ProductShow";
+import ProfileEdit from "./Profile/ProfileEdit";
+import ProfileShow from "./Profile/ProfileShow";
 
 import * as AuthSlice from "../redux/Auth/AuthSlice";
-import ProductShow from "./Product/ProductShow";
-import ProductEdit from "./Product/ProductEdit";
 
 axios.defaults.withCredentials = true;
 
@@ -54,6 +56,8 @@ function App() {
           <Route path="/product/add" Component={ProductCreate} />
           <Route path="/products/show/:id" Component={ProductShow} />
           <Route path="/products/update/:id" Component={ProductEdit} />
+          <Route path="/profile/show" Component={ProfileShow} />
+          <Route path="/profile/edit" Component={ProfileEdit} />
         </Routes>
       </BrowserRouter>
 
