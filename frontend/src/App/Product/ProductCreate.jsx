@@ -6,6 +6,7 @@ import ProductForm from "./ProductForm";
 
 import Layout from "../../components/Layout/Layout";
 import Sidebar from "../../components/Layout/Sidebar/Sidebar";
+import RedirectLoggedoutUser from "../../hooks/RedirectHook";
 import * as ProductSlice from "../../redux/Product/ProductSlice";
 
 const initialProduct = {
@@ -17,6 +18,8 @@ const initialProduct = {
 };
 
 const ProductCreate = () => {
+  RedirectLoggedoutUser();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

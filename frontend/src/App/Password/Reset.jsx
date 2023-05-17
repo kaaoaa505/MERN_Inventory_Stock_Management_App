@@ -9,7 +9,6 @@ import Card from "../../components/Card/Card";
 import Loading from "../../components/Loading/Loading";
 import AuthService from "../../services/AuthService";
 
-
 const initialFormData = {
   password: "",
   passwordConfirm: "",

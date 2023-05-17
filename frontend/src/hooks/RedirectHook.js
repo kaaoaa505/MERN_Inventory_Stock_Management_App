@@ -1,31 +1,28 @@
 import { useEffect } from "react";
-import { Cookies } from "react-cookie";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import * as AuthSlice from "../redux/Auth/AuthSlice";
+import { toast } from "react-toastify";
+import AuthService from "../services/AuthService";
 
-const RedirectLoggedoutUser = (path) => {
-  const dispatch = useDispatch();
+const RedirectLoggedoutUser = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function loggedinStatus(path) {
-      const cookies = new Cookies();
+    async function loggedinStatus() {
+      
+      const isLoggedIn = await AuthService.loggedin();      
 
-      const token = cookies.get("token");
-
-      if (token) {
-        dispatch(AuthSlice.SET_LOGIN(true));
-      } else {
-        dispatch(AuthSlice.SET_LOGIN(false));
-
-        navigate(path);
+      if (isLoggedIn && isLoggedIn.loggedin === true) {
+        return;
+      }else{
+        toast.info("Session expired, please login to continue.");
+        await AuthService.logout();
+        return navigate('/login');
       }
     }
 
-    loggedinStatus(path);
-  }, [dispatch, navigate, path]);
+    loggedinStatus();
+  }, [navigate]);
 };
 
 export default RedirectLoggedoutUser;

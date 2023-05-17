@@ -33,7 +33,7 @@ const ProductsSummary = ({products}) => {
     <div className={`ProductsSummaryComponent`}>
       <h4 className='--mt'>Products Summary</h4>
       <div className="info-summary">
-        <InfoBox icon={iconProducts} title="Products" count={products.length} color="card1" />
+        <InfoBox icon={iconProducts} title="Products" count={products.length ?? 0} color="card1" />
         <InfoBox icon={iconEarning} title="Total" count={'$' + TextHelper.numberWithCommas(productsTotal)} color="card2" />
         <InfoBox icon={iconStock} title="Out of Stock" count={outOfStock} color="card3" />
         <InfoBox icon={iconCategories} title="Categories" count={categories} color="card4" />

@@ -55,10 +55,28 @@ const destroy = async(productId) => {
     }
 }
 
+const show = async(productId) => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/products/show/${productId}`
+      );
+
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+  
+      toast.error(message);
+    }
+}
+
 const ProductService = {
   store,
   index,
   destroy,
+  show,
 };
 
 export default ProductService;
