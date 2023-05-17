@@ -2,15 +2,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Cookies } from "react-cookie";
 
-export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
-export const validateEmail = (email) => {
+const validateEmail = (email) => {
   return email.match(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
 
-export const register = async (userData) => {
+const register = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/register`,
@@ -35,7 +35,7 @@ export const register = async (userData) => {
   }
 };
 
-export const login = async (userData) => {
+const login = async (userData) => {
   try {
     const cookies = new Cookies();
 
@@ -66,7 +66,7 @@ export const login = async (userData) => {
   }
 };
 
-export const logout = async () => {
+const logout = async () => {
   try {
     const cookies = new Cookies();
 
@@ -87,7 +87,7 @@ export const logout = async () => {
   }
 };
 
-export const forgot = async (userData) => {
+const forgot = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/user/forgot`,
@@ -109,7 +109,7 @@ export const forgot = async (userData) => {
   }
 };
 
-export const reset = async (userData, token) => {
+const reset = async (userData, token) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/user/reset/${token}`,
@@ -131,7 +131,7 @@ export const reset = async (userData, token) => {
   }
 };
 
-export const loggedin = async () => {
+const loggedin = async () => {
   try {
     const response = await axios.get(`${BACKEND_URL}/api/users/loggedin`, {
       withCredentials: true,
@@ -149,3 +149,15 @@ export const loggedin = async () => {
     toast.error(message);
   }
 };
+
+const AuthService = {
+  validateEmail,
+  register,
+  login,
+  logout,
+  forgot,
+  reset,
+  loggedin,
+};
+
+export default AuthService;

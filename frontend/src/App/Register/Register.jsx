@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "./Register.scss";
 
 import Card from "../../components/Card/Card";
-import * as AuthService from "../../services/AuthService";
+import AuthService from "../../services/AuthService";
 import * as AuthSlice from "../../redux/Auth/AuthSlice";
 import Loading from "../../components/Loading/Loading";
 

@@ -34,7 +34,7 @@ function App() {
       }else{
         dispatch(AuthSlice.SET_LOGIN(false));
       }
-    } 
+    }
 
     loggedinStatus();
   }, [dispatch]);

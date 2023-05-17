@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "./Forgot.scss";
 
 import Card from "../../components/Card/Card";
-import * as AuthService from "../../services/AuthService";
+import AuthService from "../../services/AuthService";
 import Loading from "../../components/Loading/Loading";
 
 const Forgot = () => {

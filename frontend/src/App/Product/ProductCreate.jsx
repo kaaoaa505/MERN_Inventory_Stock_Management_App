@@ -12,7 +12,8 @@ const initialProduct = {
   name: "",
   category: "",
   quantity: 0,
-  price: 0,
+  price: 1,
+  description: "",
 };
 
 const ProductCreate = () => {
@@ -58,7 +59,7 @@ const ProductCreate = () => {
     formData.append("category", category);
     formData.append("quantity", quantity);
     formData.append("price", price);
-    formData.append("description", productDescription);
+    formData.append("description", productDescription ?? '');
 
     dispatch(ProductSlice.storeProduct(formData));
 

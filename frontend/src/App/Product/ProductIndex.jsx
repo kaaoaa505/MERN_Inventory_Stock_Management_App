@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import ReactPaginate from "react-paginate";
 
+import "react-confirm-alert/src/react-confirm-alert.css";
 import "./ProductIndex.scss";
 
 import ProductSearch from "./ProductSearch";
@@ -14,6 +16,7 @@ import {
   PRODUCTS_BY_SEARCH,
   selectProductsBySearch,
 } from "../../redux/Product/SearchSlice";
+import { deleteProduct, getProducts } from "../../redux/Product/ProductSlice";
 
 const ProductIndex = ({ products, isLoading }) => {
   const [searchText, setSearchText] = useState("");
@@ -32,6 +35,10 @@ const ProductIndex = ({ products, isLoading }) => {
   };
 
   useEffect(() => {
+    dispatch(PRODUCTS_BY_SEARCH({ products, searchText }));
+  }, [products, searchText, dispatch]);
+
+  useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
 
     setCurrentItems(productsBySearch.slice(itemOffset, endOffset));
@@ -43,9 +50,29 @@ const ProductIndex = ({ products, isLoading }) => {
     setItemOffset(newOffset);
   };
 
-  useEffect(() => {
-    dispatch(PRODUCTS_BY_SEARCH({ products, searchText }));
-  }, [products, searchText, dispatch]);
+  const trashClick = (productId) => {
+    if (productId) {
+      confirmAlert({
+        title: "Confirm to delete",
+        message: "Are you sure?.",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: async () => {
+              await dispatch(deleteProduct(productId));
+              await dispatch(getProducts());
+            },
+          },
+          {
+            label: "No",
+            onClick: () => {
+              return false;
+            },
+          },
+        ],
+      });
+    }
+  };
 
   return (
     <div className="ProductIndexComponent">
@@ -103,7 +130,11 @@ const ProductIndex = ({ products, isLoading }) => {
                       <FaEdit size={20} color="gray" />
                     </span>
                     <span>
-                      <FaTrashAlt size={20} color="darkred" />
+                      <FaTrashAlt
+                        size={20}
+                        color="darkred"
+                        onClick={() => trashClick(product._id)}
+                      />
                     </span>
                   </td>
                 </tr>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import * as AuthService from "../../../services/AuthService";
+import AuthService from "../../../services/AuthService";
 import * as AuthSlice from "../../../redux/Auth/AuthSlice";
 import Loading from "../../../components/Loading/Loading";
 

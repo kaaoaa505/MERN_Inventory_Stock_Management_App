@@ -7,7 +7,7 @@ import "./Reset.scss";
 
 import Card from "../../components/Card/Card";
 import Loading from "../../components/Loading/Loading";
-import * as AuthService from "../../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 
 const initialFormData = {

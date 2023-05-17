@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as ProductService from "../../services/ProductService";
+import ProductService from "../../services/ProductService";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -32,6 +32,18 @@ export const getProducts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await ProductService.index();
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  "products/destroy",
+  async (productId, thunkAPI) => {
+    try {
+      return await ProductService.destroy(productId);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
@@ -124,6 +136,24 @@ const ProductSlice = createSlice({
       state.products = action.payload;
     })
     .addCase(getProducts.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = true;
+
+      state.message = action.payload;
+      toast.error(action.payload);
+    })
+    .addCase(deleteProduct.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(deleteProduct.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+
+      toast.success('Product was deleted successfully.')
+    })
+    .addCase(deleteProduct.rejected, (state, action) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = true;
