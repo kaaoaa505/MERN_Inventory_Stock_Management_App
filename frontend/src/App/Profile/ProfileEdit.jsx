@@ -118,7 +118,6 @@ const ProfileEdit = () => {
               </form>
             </Card>
             <br />
-            {/* <ChangePassword /> */}
           </>
         </Layout>
       </Sidebar>

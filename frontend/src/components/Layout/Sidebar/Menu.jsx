@@ -28,11 +28,6 @@ const Menu = [
       },
     ],
   },
-  {
-    title: "Contact us",
-    icon: <FaCommentAlt />,
-    path: "/contactus",
-  },
 ];
 
 export default Menu;
