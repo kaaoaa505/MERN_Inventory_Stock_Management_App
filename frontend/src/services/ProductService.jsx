@@ -19,7 +19,7 @@ const store = async(formData) => {
   
       toast.error(message);
     }
-}
+};
 
 const index = async() => {
     try {
@@ -36,7 +36,7 @@ const index = async() => {
   
       toast.error(message);
     }
-}
+};
 
 const destroy = async(productId) => {
     try {
@@ -53,7 +53,7 @@ const destroy = async(productId) => {
   
       toast.error(message);
     }
-}
+};
 
 const show = async(productId) => {
     try {
@@ -70,13 +70,32 @@ const show = async(productId) => {
   
       toast.error(message);
     }
-}
+};
+
+const update = async(productId, formData) => {  
+    try {
+      const response = await axios.put(
+        `${BACKEND_URL}/api/products/update/${productId}`,
+        formData
+      );
+
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+  
+      toast.error(message);
+    }
+};
 
 const ProductService = {
   store,
   index,
   destroy,
   show,
+  update,
 };
 
 export default ProductService;

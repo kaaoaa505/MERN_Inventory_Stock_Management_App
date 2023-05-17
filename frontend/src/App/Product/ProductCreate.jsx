@@ -62,7 +62,7 @@ const ProductCreate = () => {
     formData.append("category", category);
     formData.append("quantity", quantity);
     formData.append("price", price);
-    formData.append("description", productDescription ?? '');
+    formData.append("description", productDescription ?? "");
 
     dispatch(ProductSlice.storeProduct(formData));
 
@@ -74,7 +74,7 @@ const ProductCreate = () => {
       <Sidebar>
         <Layout>
           <h3 className="--mt">Add New Product</h3>
-          
+
           <ProductForm
             product={product}
             productImage={productImage}

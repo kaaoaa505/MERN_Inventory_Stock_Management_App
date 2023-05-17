@@ -13,6 +13,8 @@ import Loading from "../../components/Loading/Loading";
 import RedirectLoggedoutUser from "../../hooks/RedirectHook";
 import { showProduct } from "../../redux/Product/ProductSlice";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const ProductShow = () => {
   RedirectLoggedoutUser();
 
@@ -54,7 +56,7 @@ const ProductShow = () => {
             <Card cardClass="group">
               {product?.image ? (
                 <img
-                  src={product.image.filePath}
+                  src={`${BACKEND_URL}/${product.image.filePath}`}
                   alt={product.image.fileName}
                 />
               ) : (

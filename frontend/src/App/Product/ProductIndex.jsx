@@ -17,7 +17,7 @@ import {
   selectProductsBySearch,
 } from "../../redux/Product/SearchSlice";
 import { deleteProduct, getProducts } from "../../redux/Product/ProductSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductIndex = ({ products, isLoading }) => {
   const navigate = useNavigate();
@@ -53,9 +53,6 @@ const ProductIndex = ({ products, isLoading }) => {
     setItemOffset(newOffset);
   };
 
-  const showClick = (productId) => {
-    return navigate(`/products/show/${productId}`);
-  };
   const trashClick = (productId) => {
     if (productId) {
       confirmAlert({
@@ -130,14 +127,14 @@ const ProductIndex = ({ products, isLoading }) => {
                   <td>${product.price * product.quantity}</td>
                   <td className="icons">
                     <span>
-                      <AiOutlineEye
-                        size={20}
-                        color="green"
-                        onClick={() => showClick(product._id)}
-                      />
+                      <Link to={`/products/show/${product._id}`}>
+                        <AiOutlineEye size={20} color="green" />
+                      </Link>
                     </span>
                     <span>
-                      <FaEdit size={20} color="gray" />
+                      <Link to={`/products/update/${product._id}`}>
+                        <FaEdit size={20} color="gray" />
+                      </Link>
                     </span>
                     <span>
                       <FaTrashAlt

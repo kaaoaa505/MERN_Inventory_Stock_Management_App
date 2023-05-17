@@ -18,6 +18,7 @@ import ProductCreate from "./Product/ProductCreate";
 
 import * as AuthSlice from "../redux/Auth/AuthSlice";
 import ProductShow from "./Product/ProductShow";
+import ProductEdit from "./Product/ProductEdit";
 
 axios.defaults.withCredentials = true;
 
@@ -52,6 +53,7 @@ function App() {
           <Route path="/reset/:token" Component={Reset} />
           <Route path="/product/add" Component={ProductCreate} />
           <Route path="/products/show/:id" Component={ProductShow} />
+          <Route path="/products/update/:id" Component={ProductEdit} />
         </Routes>
       </BrowserRouter>
 
